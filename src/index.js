@@ -1,9 +1,7 @@
-// import Views from "./views/views";
+import Views from "./blocks/Views";
 
 window.onload = function() {
 
-	// alert("sdasd");
-	// const container = document.getElementsByClassName("my-container")[0];
-	// const view = new Views(container)
-	let s = "foo"
+	const container = document.body.getElementsByClassName("my-container")[0];
+	const view = new Views(container, ['team'])
 };
