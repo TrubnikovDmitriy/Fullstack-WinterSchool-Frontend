@@ -40,9 +40,6 @@ export default class SideBar extends Block {
 
 		this.buttons = Block.create('ul', {}, ["list-group", "list-group-flush"]);
 		this.append(this.buttons);
-		//TODO delete нижние строчки
-		this.addButtons("button #1");
-		this.addButtons("button #2");
 
 
 		this.author = Block.create('div', {}, ["card-footer", "text-muted"]);
@@ -69,7 +66,8 @@ export default class SideBar extends Block {
 	addButtons(buttonText) {
 		let node = Block.create('li', {}, ["list-group-item"]);
 		node.el.innerHTML = buttonText;
-		this.buttons.append(node)
+		this.buttons.append(node);
+		return node
 	}
 
 	setAuthor(text) {

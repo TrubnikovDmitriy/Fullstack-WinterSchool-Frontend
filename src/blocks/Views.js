@@ -16,6 +16,7 @@ export default class Views extends Block {
 	 * @param {string} [classes] - список имён классов
 	 * @constructor
 	 */
+
 	constructor(container, classes = []) {
 		classes.push('row', 'view');
 		const block = Block.create('div', {}, classes);
@@ -27,22 +28,36 @@ export default class Views extends Block {
 		this.content = new Content(block.el);
 	}
 
-
-	/**
-	 * Показывает вьюху
-	 */
-	show() {
-		// this.el.classList.remove('main_hidden');
-		this.hidden = false;
+	getSidebar() {
+		return this.sidebar
 	}
 
+	// /**
+	//  * Показывает вьюху
+	//  */
+	// show() {
+	// 	// this.el.classList.remove('main_hidden');
+	// 	this.hidden = false;
+	// }
+	//
+	// /**
+	//  * Скрывает вьюху
+	//  */
+	// hide() {
+	// 	// this.el.classList.add('main_hidden');
+	// 	this.hidden = true;
+	// }
 
-	/**
-	 * Скрывает вьюху
-	 */
+	setTitle(title) {
+		this.sidebar.setTitle(title);
+	}
+
+	setAbout(about) {
+		this.sidebar.setGameAbout(about);
+	}
+
 	hide() {
-		// this.el.classList.add('main_hidden');
-		this.hidden = true;
+		this.el.hidden = true;
 	}
 }
 
