@@ -3,7 +3,8 @@
 // key frames
 import Block from './Block.js';
 import SideBar from './SideBar.js';
-import Content from "./Content";
+import Content from './Content';
+import EventBus from '../modules/EventBus'
 
 
 /**
@@ -16,7 +17,6 @@ export default class Views extends Block {
 	 * @param {string} [classes] - список имён классов
 	 * @constructor
 	 */
-
 	constructor(container, classes = []) {
 		classes.push('row', 'view');
 		const block = Block.create('div', {}, classes);
@@ -25,28 +25,18 @@ export default class Views extends Block {
 
 		const ctx = document.body.getElementsByClassName("row")[0];
 		this.sidebar = new SideBar(block.el);
-		this.content = new Content(block.el);
+		this.block = block;
+
+		EventBus.on("hide_all", () => this.hide())
+	}
+
+	getContainer() {
+		return this.block
 	}
 
 	getSidebar() {
 		return this.sidebar
 	}
-
-	// /**
-	//  * Показывает вьюху
-	//  */
-	// show() {
-	// 	// this.el.classList.remove('main_hidden');
-	// 	this.hidden = false;
-	// }
-	//
-	// /**
-	//  * Скрывает вьюху
-	//  */
-	// hide() {
-	// 	// this.el.classList.add('main_hidden');
-	// 	this.hidden = true;
-	// }
 
 	setTitle(title) {
 		this.sidebar.setTitle(title);
@@ -58,6 +48,10 @@ export default class Views extends Block {
 
 	hide() {
 		this.el.hidden = true;
+	}
+
+	show() {
+		this.el.hidden = false;
 	}
 }
 

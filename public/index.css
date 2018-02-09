@@ -1,0 +1,12 @@
+div.card.mb-3 {
+	float: left;
+	margin-left: 1%;
+	margin-right: 1%;
+	width: 40%;
+}
+div.card.mb-3 {
+	cursor: pointer;
+}
+div.card.mb-3:hover {
+	padding-left: 1.5%;
+}
