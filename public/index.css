@@ -4,7 +4,7 @@ div.card.mb-3 {
 	margin-right: 1%;
 	width: 40%;
 }
-div.card.mb-3 {
+div.card.mb-3, li.list-group-item {
 	cursor: pointer;
 }
 div.card.mb-3:hover {

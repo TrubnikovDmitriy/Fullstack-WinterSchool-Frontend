@@ -15,6 +15,8 @@ export default class Games extends Views {
 			eventBus.emit("hide_all", null);
 			this.show()
 		});
+		eventBus.on("get_game", (game) => this.getGame(game));
+
 
 		this.initSideBarButtons();
 		this.init();
@@ -34,5 +36,10 @@ export default class Games extends Views {
 		eventBus.on("GameMain", () => {
 			this.gameMain.getGames()
 		});
+	}
+
+	getGame(game) {
+		this.getSidebar().setTitle(game.title);
+		this.getSidebar().setAbout(game.about);
 	}
 }

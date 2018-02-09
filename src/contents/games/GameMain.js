@@ -15,7 +15,7 @@ export default class GameMain extends Content {
 	}
 
 	addGame(title, about) {
-		new Card(this.el, "Игра", title, about);
+		return new Card(this.el, "Игра", title, about);
 	}
 
 
@@ -25,7 +25,7 @@ export default class GameMain extends Content {
 		for (let i = 0; i < length; ++i) {
 			this.el.removeChild(this.el.children[0])
 		}
-		http.fetchGet("/v1/games?limit=8")
+		http.fetchGet("http://localhost:5555/v1/games?limit=8")
 			.then(response => response.json())
 			.then(games => eventBus.emit("get_games", games))
 			.catch(alert => eventBus.emit("danger_message", alert));
@@ -33,7 +33,16 @@ export default class GameMain extends Content {
 
 	parseGames(games) {
 		for (let i = 0; i < games.length; ++i) {
-			this.addGame(games[i].title, games[i].about)
+			let card = this.addGame(games[i].title, games[i].about);
+			card.el.setAttribute("href", games[i].href[0].href);
+			card.el.addEventListener('click', () => this.getGame(games[i].href[0].href), false)
 		}
+	}
+
+	getGame(url) {
+		http.fetchGet(url)
+			.then(response => response.json())
+			.then(game => eventBus.emit("get_game", game))
+			.catch(alert => eventBus.emit("danger_message", alert))
 	}
 }
