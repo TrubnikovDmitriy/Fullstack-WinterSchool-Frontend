@@ -23,11 +23,40 @@ export default function init() {
 		});
 		let classes = navButtons[i].className.split(' ');
 		let eventName = "show_" + classes[classes.length - 1];
-		console.log(eventName);
 		navButtons[i].addEventListener('click', () => {
 			eventBus.emit(eventName, null);
 			navButtons[i].className += ' active';
 		}, false);
 	}
-	document.backendURL = 'http://localhost:5555';
+
+	// Навешиваем события на кнопки алертов
+	let success = document.body.getElementsByClassName("alert-success");
+	let danger = document.body.getElementsByClassName("alert-danger");
+	let info = document.body.getElementsByClassName("alert-info");
+
+
+	eventBus.on("close_alerts", () => {
+		success[0].hidden = true;
+		danger[0].hidden = true;
+		info[0].hidden = true;
+	});
+
+	eventBus.on("success_message", (message) => {
+		success[0].innerHTML = "<strong>Well done!</strong> " + message;
+		success[0].hidden = false;
+	});
+	eventBus.on("danger_message", (message) => {
+		danger[0].lastElementChild.innerHTML = message;
+		// danger[0].innerHTML = "<strong>Error!</strong> " + message;
+		danger[0].hidden = false;
+	});
+	eventBus.on("info_message", (message) => {
+		info[0].innerHTML = "<strong>Information!</strong> " + message;
+		info[0].hidden = false;
+	});
+
+	let closeCrosses = document.body.getElementsByClassName("close");
+	for (let i = 0; i < closeCrosses.length; ++i) {
+		closeCrosses[i].addEventListener('click', () => eventBus.emit("close_alerts"));
+	}
 }

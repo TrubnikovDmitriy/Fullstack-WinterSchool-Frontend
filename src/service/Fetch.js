@@ -23,8 +23,8 @@ export default class HTTP {
 		myHeaders.set('Content-Type', 'application/json; charset=utf-8');
 		return fetch(url, {
 			method: 'POST',
-			mode: 'cors',
-			credentials: 'include',
+			mode: 'no-cors',
+			// credentials: 'include',
 			body: JSON.stringify(body),
 			headers: myHeaders
 		});

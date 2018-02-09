@@ -32,7 +32,6 @@ export default class Games extends Views {
 		this.gameMain.hide();
 
 		eventBus.on("GameMain", () => {
-			this.gameMain.show();
 			this.gameMain.getGames()
 		});
 	}
