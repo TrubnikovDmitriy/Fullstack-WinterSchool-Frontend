@@ -18,10 +18,8 @@ export default class TourneysOfGame extends Content {
 	getGame(game) {
 		eventBus.emit("hide_content", null);
 		this.show();
-		let length = this.el.children.length;
-		for (let i = 0; i < length; ++i) {
-			this.el.removeChild(this.el.children[0])
-		}
+		this.clear();
+
 		http.fetchGet(game.href[1].href + "?limit=8")
 			.then(response => response.json())
 			.then(tournaments => eventBus.emit("get_tournaments", tournaments))

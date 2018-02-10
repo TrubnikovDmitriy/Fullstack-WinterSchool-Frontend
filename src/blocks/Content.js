@@ -12,4 +12,11 @@ export default class Content extends Block {
 		eventBus.on("hide_content", () => this.el.hidden = true);
 		container.append(block.el);
 	}
+
+	clear() {
+		let length = this.el.children.length;
+		for (let i = 0; i < length; ++i) {
+			this.el.removeChild(this.el.children[0])
+		}
+	}
 }

@@ -1,22 +1,13 @@
 'use strict';
 
-// key frames
 import Block from './Block.js';
 import SideBar from './SideBar.js';
 import Content from './Content';
 import EventBus from '../modules/EventBus'
 
 
-/**
- * Класс базовой вьюхи
- * @module ViewButton
- */
 export default class Views extends Block {
-	/**
-	 * @param {*} container
-	 * @param {string} [classes] - список имён классов
-	 * @constructor
-	 */
+
 	constructor(container, classes = []) {
 		classes.push('row', 'view');
 		const block = Block.create('div', {}, classes);

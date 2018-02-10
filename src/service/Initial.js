@@ -2,15 +2,24 @@
 
 import EventBus from "../modules/EventBus"
 
+const eventBus = EventBus;
+
 
 export default function init() {
 
-	const eventBus = EventBus;
+	initNavigationButtons();
+	initAlerts();
+	initTooltip();
+
 	eventBus.emit("hide_all", null);
+}
+
+function initNavigationButtons() {
 
 	// Навешиваем события на кнопки navbar'a
 	let navButtons = document.body.getElementsByClassName("nav-item");
 	for (let i = 0; i < navButtons.length; ++i) {
+
 		eventBus.on("hide_all", () => {
 			let classes = navButtons[i].className.split(' ');
 			for (let i = 0; i < classes.length; i++) {
@@ -21,13 +30,18 @@ export default function init() {
 			}
 			navButtons[i].className = classes.join(' ');
 		});
+
 		let classes = navButtons[i].className.split(' ');
 		let eventName = "show_" + classes[classes.length - 1];
+
 		navButtons[i].addEventListener('click', () => {
 			eventBus.emit(eventName, null);
 			navButtons[i].className += ' active';
 		}, false);
 	}
+}
+
+function initAlerts() {
 
 	// Навешиваем события на кнопки алертов
 	let success = document.body.getElementsByClassName("alert-success");
@@ -59,4 +73,56 @@ export default function init() {
 	for (let i = 0; i < closeCrosses.length; ++i) {
 		closeCrosses[i].addEventListener('click', () => eventBus.emit("close_alerts"));
 	}
+}
+
+function initTooltip() {
+
+	const paddingY = 15;
+	const paddingX = 25;
+
+	let tooltip = document.body.getElementsByClassName('my-tooltip')[0];
+
+	// Отображение текста
+	document.onmousemove = (event) => {
+		if ( !event.target.hasAttribute('match-tooltip') ) return;
+
+		// Считывание информации о матче
+		tooltip.firstElementChild.innerHTML = "№ " + event.target.getAttribute('match-tooltip');
+		debugger;
+		tooltip.lastElementChild.lastElementChild.innerHTML =
+			"<i>Начало матча:</i> " + event.target.getAttribute('started') + '</br>' +
+			"<i>Конец матча:</i> " + event.target.getAttribute('ended') + '</br>';
+
+
+		// Ограничения, чтоб не выходил за границу
+		let x = event.pageX - tooltip.clientWidth / 2;
+		let y = event.pageY - tooltip.clientHeight - paddingY;
+
+		if ( x < 0 ) {
+			x = 0;
+		}
+		if ( x > document.body.clientWidth - tooltip.clientWidth - paddingX ) {
+			x = document.body.clientWidth - tooltip.clientWidth - paddingX;
+		}
+		if ( tooltip.clientHeight + paddingY > event.clientY ) {
+			y = event.pageY + paddingY;
+		}
+
+		console.log(x + 'px');
+		console.log(y + 'px');
+		console.log();
+		tooltip.style.left = x + 'px';
+		tooltip.style.top = y + 'px';
+	};
+
+	// Появление/исчезновние всплывающей подсказки
+	document.onmouseover = (event) => {
+		if ( !event.target.hasAttribute('match-tooltip') ) return;
+		tooltip.style.opacity = 1;
+	};
+	document.onmouseout = (event) => {
+		if ( !event.target.hasAttribute('match-tooltip') ) return;
+		tooltip.style.opacity = 0;
+	};
+
 }

@@ -10,3 +10,23 @@ div.card.mb-3, li.list-group-item {
 div.card.mb-3:hover {
 	padding-left: 1.5%;
 }
+
+td {
+	text-align: center;
+}
+td.table-active, td.table-info {
+	cursor: pointer;
+}
+
+div.my-tooltip {
+	opacity: 0;
+	position: absolute;
+	z-index: 100;
+	left: 0;
+	top: 0;
+	pointer-events: none;
+	transition:
+			opacity 0.5s,
+			left 1s cubic-bezier(0.18, 0.89, 0.46, 1.31),
+			top 1s cubic-bezier(0.18, 0.89, 0.46, 1.31);
+}
