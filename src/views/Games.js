@@ -2,14 +2,15 @@
 
 import Views from "../blocks/Views";
 import eventBus from '../modules/EventBus'
-import GameMain from '../contents/games/GameMain'
+import GameMain from '../contents/games/GamesMain'
+import TourneysOfGame from "../contents/games/TourneysOfGame";
 
 
 export default class Games extends Views {
 
 	constructor(container) {
 		super(container, ["games"]);
-		this.getSidebar().setEntity("Игры");
+		this.getSidebar().setEntity("Игра");
 
 		eventBus.on("show_games", () => {
 			eventBus.emit("hide_all", null);
@@ -27,18 +28,24 @@ export default class Games extends Views {
 		this.buttonGameMain.el.addEventListener('click', () => eventBus.emit("GameMain", null), false);
 
 		this.buttonAddGame = this.getSidebar().addButtons("Зарегистрировать игру");
+		this.buttonAddGame.el.addEventListener('click', () => this.getSidebar().hideInfo(), false);
+
 	}
 
 	init() {
 		this.gameMain = new GameMain(this.getContainer().el);
-		this.gameMain.hide();
-
 		eventBus.on("GameMain", () => {
+			this.getSidebar().hideInfo();
 			this.gameMain.getGames()
 		});
+
+		this.tourneysOfGame = new TourneysOfGame(this.getContainer().el);
+
+		eventBus.emit("hide_content", null);
 	}
 
 	getGame(game) {
+		this.getSidebar().showInfo();
 		this.getSidebar().setTitle(game.title);
 		this.getSidebar().setAbout(game.about);
 	}

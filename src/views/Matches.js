@@ -10,7 +10,7 @@ export default class Matches extends Views {
 		this.getSidebar().setEntity("Матчи");
 
 		eventBus.on("show_matches", () => {
-			eventBus.emit("hide_all", null)
+			eventBus.emit("hide_all", null);
 			this.show()
 		});
 

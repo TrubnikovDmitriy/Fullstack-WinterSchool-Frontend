@@ -59,6 +59,20 @@ export default class SideBar extends Block {
 		this.about.el.innerHTML = text
 	}
 
+	hideInfo() {
+		this.entity.hide();
+		this.title.hide();
+		this.about.hide();
+		this.image.hide();
+	}
+
+	showInfo() {
+		this.entity.show();
+		this.title.show();
+		this.about.show();
+		this.image.show();
+	}
+
 	addButtons(buttonText) {
 		let node = Block.create('li', {}, ["list-group-item"]);
 		node.el.innerHTML = buttonText;

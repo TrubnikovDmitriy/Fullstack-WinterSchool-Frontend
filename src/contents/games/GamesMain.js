@@ -20,6 +20,7 @@ export default class GameMain extends Content {
 
 
 	getGames() {
+		eventBus.emit("hide_content", null);
 		this.show();
 		let length = this.el.children.length;
 		for (let i = 0; i < length; ++i) {
@@ -35,11 +36,11 @@ export default class GameMain extends Content {
 		for (let i = 0; i < games.length; ++i) {
 			let card = this.addGame(games[i].title, games[i].about);
 			card.el.setAttribute("href", games[i].href[0].href);
-			card.el.addEventListener('click', () => this.getGame(games[i].href[0].href), false)
+			card.el.addEventListener('click', () => this.fetchGame(games[i].href[0].href), false)
 		}
 	}
 
-	getGame(url) {
+	fetchGame(url) {
 		http.fetchGet(url)
 			.then(response => response.json())
 			.then(game => eventBus.emit("get_game", game))

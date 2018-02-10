@@ -42,16 +42,16 @@ export default function init() {
 	});
 
 	eventBus.on("success_message", (message) => {
-		success[0].innerHTML = "<strong>Well done!</strong> " + message;
+		success[0].lastElementChild.innerHTML = message;
 		success[0].hidden = false;
 	});
 	eventBus.on("danger_message", (message) => {
 		danger[0].lastElementChild.innerHTML = message;
-		// danger[0].innerHTML = "<strong>Error!</strong> " + message;
 		danger[0].hidden = false;
 	});
 	eventBus.on("info_message", (message) => {
-		info[0].innerHTML = "<strong>Information!</strong> " + message;
+		debugger;
+		info[0].lastElementChild.innerHTML = message;
 		info[0].hidden = false;
 	});
 

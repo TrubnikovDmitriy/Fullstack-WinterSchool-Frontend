@@ -43,7 +43,7 @@ export default class Views extends Block {
 	}
 
 	setAbout(about) {
-		this.sidebar.setGameAbout(about);
+		this.sidebar.setAbout(about);
 	}
 
 	hide() {
