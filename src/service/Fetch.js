@@ -22,9 +22,10 @@ export default class HTTP {
 		myHeaders.set('Content-Type', 'application/json; charset=utf-8');
 		return fetch(url, {
 			method: 'POST',
-			mode: 'no-cors',
 			body: JSON.stringify(body),
-			headers: myHeaders
+			credentials: 'include',
+			headers: myHeaders,
+			// redirect: 'manual',
 		});
 	}
 }

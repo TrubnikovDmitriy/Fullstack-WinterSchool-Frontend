@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<!--Алерты-->
 <div class="alert alert-dismissible alert-success" hidden>
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 	<strong>Well done!</strong> <span>Success alert</span>
@@ -23,6 +24,7 @@
 	<strong>Heads up!</strong> <span>Info alert</span>
 </div>
 
+<!--Навигационная панель-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	<a class="navbar-brand" href="#">WinterSchool</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,13 +50,15 @@
 			</li>
 		</ul>
 
-		<button class="btn btn-secondary my-2 my-sm-0" type="submit">Войти</button>
+		<button class="btn btn-secondary my-2 my-sm-0 button-sign-in" type="submit">Войти</button>
+		<button class="btn btn-secondary my-2 my-sm-0 button-sign-up" type="submit">Регистрация</button>
 	</div>
-</nav>
-<br>
+</nav><br>
+
+<!--Основной контент (строится JS-ом)-->
 <div class="container-fluid my-container"></div>
 
-
+<!--Тултип для сетки матчей-->
 <div class="card border-info mb-3 my-tooltip" style="max-width: 20rem;">
 	<div class="card-header"></div>
 	<div class="card-body text-info">
@@ -63,6 +67,45 @@
 	</div>
 </div>
 
+<!--Формы авторизации/регистрации-->
+<form class="my-form form-sign-in">
+	<fieldset>
+		<legend>Авторизация</legend>
+		<div class="form-group">
+			<label>Электронная почта</label>
+			<input type="text" class="form-control" placeholder="Enter email">
+		</div>
+		<div class="form-group">
+			<label>Пароль</label>
+			<input type="password" class="form-control" placeholder="Password">
+			<small class="form-text text-muted">We'll never share your password with anyone else.</small>
+		</div>
+		<button type="submit" class="btn btn-primary">Войти!</button>
+	</fieldset>
+</form>
+<form class="my-form form-sign-up">
+	<fieldset>
+		<legend>Регистрация</legend>
+		<div class="form-group">
+			<label>Электронная почта</label>
+			<input type="text" class="form-control" placeholder="Enter email">
+		</div>
+		<div class="form-group">
+			<label>Имя</label>
+			<input type="text" class="form-control" placeholder="Enter firstname">
+		</div>
+		<div class="form-group">
+			<label>Фамилия</label>
+			<input type="text" class="form-control" placeholder="Enter lastname">
+		</div>
+		<div class="form-group">
+			<label>Пароль</label>
+			<input type="password" class="form-control" placeholder="Password">
+			<small class="form-text text-muted">We'll never share your password with anyone else.</small>
+		</div>
+		<button type="submit" class="btn btn-primary">Зарегистрироваться!</button>
+	</fieldset>
+</form>
 
 </body>
 </html>

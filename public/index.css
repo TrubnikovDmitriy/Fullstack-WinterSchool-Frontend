@@ -30,3 +30,9 @@ div.my-tooltip {
 			left 1s cubic-bezier(0.18, 0.89, 0.46, 1.31),
 			top 1s cubic-bezier(0.18, 0.89, 0.46, 1.31);
 }
+
+form.my-form {
+	/*position: absolute;*/
+	margin: auto;
+	max-width: 25%;
+}

@@ -1,6 +1,7 @@
 'use strict';
 
 import EventBus from "../modules/EventBus"
+import http from "../service/Fetch"
 
 const eventBus = EventBus;
 
@@ -10,6 +11,7 @@ export default function init() {
 	initNavigationButtons();
 	initAlerts();
 	initTooltip();
+	initSigning();
 
 	eventBus.emit("hide_all", null);
 }
@@ -56,14 +58,20 @@ function initAlerts() {
 	});
 
 	eventBus.on("success_message", (message) => {
+		eventBus.emit("close_alerts", false);
+		scrollTo(0, 0);
 		success[0].lastElementChild.innerHTML = message;
 		success[0].hidden = false;
 	});
 	eventBus.on("danger_message", (message) => {
+		eventBus.emit("close_alerts", false);
+		scrollTo(0, 0);
 		danger[0].lastElementChild.innerHTML = message;
 		danger[0].hidden = false;
 	});
 	eventBus.on("info_message", (message) => {
+		eventBus.emit("close_alerts", false);
+		scrollTo(0, 0);
 		info[0].lastElementChild.innerHTML = message;
 		info[0].hidden = false;
 	});
@@ -120,4 +128,124 @@ function initTooltip() {
 		tooltip.style.opacity = 0;
 	};
 
+}
+
+function initSigning() {
+
+	let FormSignIn = document.body.getElementsByClassName("form-sign-in")[0];
+	let FormSignUp = document.body.getElementsByClassName("form-sign-up")[0];
+	let ButtonSignIn = document.body.getElementsByClassName("button-sign-in")[0];
+	let ButtonSignUp = document.body.getElementsByClassName("button-sign-up")[0];
+
+	eventBus.on("hide_all", () => {
+		FormSignIn.hidden = true;
+		FormSignUp.hidden = true;
+	});
+	ButtonSignIn.addEventListener('click', () => {
+		eventBus.emit("hide_all", false);
+		FormSignIn.hidden = false;
+	});
+	ButtonSignUp.addEventListener('click', () => {
+		eventBus.emit("hide_all", false);
+		FormSignUp.hidden = false;
+	});
+
+	initSignUp(FormSignUp);
+	initSignIn(FormSignIn);
+}
+
+function initSignUp(signUp) {
+
+	let fields = signUp.firstElementChild.children;
+	let emailField = fields[1].children[1];
+	let firstNameField = fields[2].children[1];
+	let lastNameField = fields[3].children[1];
+	let passwordField = fields[4].children[1];
+	let submit = fields[5];
+
+	eventBus.on("hide_all", () => {
+		emailField.value = "";
+		firstNameField.value = "";
+		lastNameField.value = "";
+		passwordField.value = "";
+	});
+
+	submit.addEventListener('click', (event) => {
+		event.preventDefault();
+
+		const email = emailField.value;
+		const firstName = firstNameField.value;
+		const lastName = lastNameField.value;
+		const password = passwordField.value;
+
+		http.fetchPost("/v1/persons", {
+			first_name: firstName,
+			last_name: lastName,
+			email: email,
+			password: password
+		})
+			.then((response) => response.json())
+			.then(body => {
+				if (body.error_message !== undefined) {
+					throw body
+				} else {
+					eventBus.emit("success_message", "Вы успешно зарегистрировались!")
+				}
+			})
+			.catch(error => {
+				let message = error.error_message +
+					' (<a target=\'_blank\' href=' + error.href + '>подробности</a>)';
+				eventBus.emit("danger_message", message)
+			})
+	});
+}
+
+
+function initSignIn(signIn) {
+
+	let fields = signIn.firstElementChild.children;
+	let emailField = fields[1].children[1];
+	let passwordField = fields[2].children[1];
+	let submit = fields[3];
+
+	eventBus.on("hide_all", () => {
+		emailField.value = "";
+		passwordField.value = "";
+	});
+
+	submit.addEventListener('click', (event) => {
+		event.preventDefault();
+
+		const email = emailField.value;
+		const password = passwordField.value;
+		let jwt = require('jsonwebtoken');
+
+
+		http.fetchPost("/v1/oauth/authorize?redirect=http://localhost:5555/v1/oauth/access", {
+			email: email,
+			password: password,
+			app_id: '00000000-0000-0000-0000-000000000001',
+			scope: 2
+		})
+			.then((response) => {
+				if (response.redirected === true && response.status === 200) {
+					eventBus.emit("hide_all", false);
+
+					let access_token = getCookie("ws_auth");
+					let decode = jwt.decode(access_token);
+					eventBus.emit("success_message",
+						"Здравствуйте, " + decode.first_name + " " + decode.last_name);
+
+				} else {
+					eventBus.emit("danger_message", response.status + ": " + response.statusText)
+				}
+			})
+	});
+}
+
+function getCookie(name) {
+	let matches = document.cookie.match(new RegExp(
+		"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+	));
+	return matches ? decodeURIComponent(matches[1]) : undefined;
 }
