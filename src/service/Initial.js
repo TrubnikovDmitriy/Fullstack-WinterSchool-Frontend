@@ -221,7 +221,7 @@ function initSignIn(signIn) {
 		let jwt = require('jsonwebtoken');
 
 
-		http.fetchPost("/v1/oauth/authorize?redirect=http://localhost:5555/v1/oauth/access", {
+		http.fetchPost("/v1/oauth/authorize?redirect=http://localhost:5555/v1/app/activate", {
 			email: email,
 			password: password,
 			app_id: '00000000-0000-0000-0000-000000000001',
