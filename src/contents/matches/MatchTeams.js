@@ -10,7 +10,7 @@ export default class GridMatch extends Content {
 
 	constructor(container) {
 		super(container);
-		eventBus.on("get_grid", this.createGrid.bind(this));
+		eventBus.on("", this.createGrid.bind(this));
 	}
 
 	createGrid(matches) {

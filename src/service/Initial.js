@@ -64,7 +64,6 @@ function initAlerts() {
 		danger[0].hidden = false;
 	});
 	eventBus.on("info_message", (message) => {
-		debugger;
 		info[0].lastElementChild.innerHTML = message;
 		info[0].hidden = false;
 	});
@@ -88,7 +87,6 @@ function initTooltip() {
 
 		// Считывание информации о матче
 		tooltip.firstElementChild.innerHTML = "№ " + event.target.getAttribute('match-tooltip');
-		debugger;
 		tooltip.lastElementChild.lastElementChild.innerHTML =
 			"<i>Начало матча:</i> " + event.target.getAttribute('started') + '</br>' +
 			"<i>Конец матча:</i> " + event.target.getAttribute('ended') + '</br>';
@@ -108,9 +106,6 @@ function initTooltip() {
 			y = event.pageY + paddingY;
 		}
 
-		console.log(x + 'px');
-		console.log(y + 'px');
-		console.log();
 		tooltip.style.left = x + 'px';
 		tooltip.style.top = y + 'px';
 	};

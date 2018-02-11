@@ -41,7 +41,7 @@ export default class Tournaments extends Views {
 					.then(matches => eventBus.emit("get_grid", matches))
 					.catch(alert => eventBus.emit("danger_message", alert));
 			}
-		},false);
+		}, false);
 
 
 		this.buttonTeams = this.getSidebar().addButtons("Команды участницы");
@@ -52,11 +52,10 @@ export default class Tournaments extends Views {
 			} else {
 				http.fetchGet(url)
 			}
-		},false);
+		}, false);
 
 
 		this.buttonChange = this.getSidebar().addButtons("Изменить описание турнира");
-		this.buttonCreateTourney = this.getSidebar().addButtons("Зарегистрировать турнир");
 	}
 
 	initSideBarInfo(tournament) {
